@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+
+
+message RentCarConfirmRequest {
+  string message = 1; // message = nome do veiculo
+}
+
+
+message RentCarConfirmResponse {
+  bool message = 1;  // devolução efetivada ou falha na devolução
+}
+
+
+// Cliente aguardando resposta do Terminal (se locação não confirmada de imediato)
+service Client_Waiting {
+  rpc RentACarConfirmation (RentCarConfirmRequest) returns (RentCarConfirmResponse) {}
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message HeartbeatRequest {
+  string servico = 1; // ex: "Terminal 1", "Servidor de Backup"
+}
+
+message Empty {}
+
+service Heartbeat {
+  rpc EnviarSinal (HeartbeatRequest) returns (Empty);
+}

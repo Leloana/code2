@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+
+message InfoRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message InfoReply {
+  string message = 1; // ip:porta
+}
+
+// Serviço do guiche de informações
+message Empty {}
+
+service Information {
+  rpc GetTerminalOnLine (InfoRequest) returns (InfoReply) {}
+}

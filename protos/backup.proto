@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+message BackupRequest {
+  string cliente = 1;
+  string classe = 2;
+  string veiculo = 3;
+  string status = 4;
+}
+
+message BackupResponse {
+  string confirmacao = 1;
+}
+
+service Backup {
+  rpc RegistrarTransacao (BackupRequest) returns (BackupResponse);
+}

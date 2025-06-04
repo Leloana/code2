@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+
+
+message RentCarRequest {
+  string ID_cliente = 1;
+  string IP_cliente = 2;
+  string Porta_cliente = 3;
+  string Classe_veiculo = 4; // classe do veiculo
+}
+
+message RentCarResponse {
+  string message = 1; // se status concluido message = nome do veiculo senão message=Classe_veiculo
+  string status = 2; // concluido ou pendente
+}
+
+message ReturnCarRequest {
+  string ID_cliente = 1;
+  string Nome_veiculo = 2; //identificação do veiculo locado, para devolução
+  string Classe_veiculo = 3; // classe do veiculo
+}
+
+message ReturnCarResponse {
+  bool message = 1;  // devolução efetivada ou falha na devolução
+}
+
+
+// Serviço do Terminal de locação
+service Terminal {
+  rpc RentACar (RentCarRequest) returns (RentCarResponse) {}
+  rpc ReturnACar (ReturnCarRequest) returns (ReturnCarResponse){}
+}
+
+
+// Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
+service CallbackService {
+  // Método que o terminal chama de volta no cliente
+  rpc ReceiveCallback (CallbackMessage) returns (CallbackResponse);
+}
+
+// Mensagens para CallbackService.ReceiveCallback
+message CallbackMessage {
+  string message_content = 1;
+}
+
+message CallbackResponse {
+  string status = 1;
+}
