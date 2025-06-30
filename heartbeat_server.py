@@ -3,7 +3,7 @@ from concurrent import futures
 import threading
 import time
 from datetime import datetime
-
+from google.protobuf import empty_pb2
 from limpar_logs import limpar_log_heartbeat
 
 import heartbeat_pb2
@@ -43,7 +43,16 @@ class HeartbeatServicer(heartbeat_pb2_grpc.HeartbeatServicer):
         now = time.time()
         last_signals[servico] = now
         # log_heartbeat(f"{servico} está ativo, última mensagem recebida em {datetime.fromtimestamp(now).strftime('%Y-%m-%d %H:%M:%S')}")
-        return heartbeat_pb2.Empty()
+        return empty_pb2.Empty()
+    
+    def ListarServicosAtivos(self, request, context):
+        now = time.time()
+        ativos = []
+        for servico in servicos_esperados:
+            timestamp = last_signals.get(servico, 0)
+            if (now - timestamp) <= HEARTBEAT_TIMEOUT:
+                ativos.append(servico)
+        return heartbeat_pb2.ListaServicos(servicos=ativos)
 
 def monitor_inativos():
     for servico in servicos_esperados:

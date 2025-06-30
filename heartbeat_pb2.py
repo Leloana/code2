@@ -22,19 +22,20 @@ _runtime_version.ValidateProtobufRuntimeVersion(
 _sym_db = _symbol_database.Default()
 
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fheartbeat.proto\"#\n\x10HeartbeatRequest\x12\x0f\n\x07servico\x18\x01 \x01(\t\"\x07\n\x05\x45mpty25\n\tHeartbeat\x12(\n\x0b\x45nviarSinal\x12\x11.HeartbeatRequest\x1a\x06.Emptyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fheartbeat.proto\x1a\x1bgoogle/protobuf/empty.proto\"#\n\x10HeartbeatRequest\x12\x0f\n\x07servico\x18\x01 \x01(\t\"!\n\rListaServicos\x12\x10\n\x08servicos\x18\x01 \x03(\t2\x85\x01\n\tHeartbeat\x12\x38\n\x0b\x45nviarSinal\x12\x11.HeartbeatRequest\x1a\x16.google.protobuf.Empty\x12>\n\x14ListarServicosAtivos\x12\x16.google.protobuf.Empty\x1a\x0e.ListaServicosb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'heartbeat_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_HEARTBEATREQUEST']._serialized_start=19
-  _globals['_HEARTBEATREQUEST']._serialized_end=54
-  _globals['_EMPTY']._serialized_start=56
-  _globals['_EMPTY']._serialized_end=63
-  _globals['_HEARTBEAT']._serialized_start=65
-  _globals['_HEARTBEAT']._serialized_end=118
+  _globals['_HEARTBEATREQUEST']._serialized_start=48
+  _globals['_HEARTBEATREQUEST']._serialized_end=83
+  _globals['_LISTASERVICOS']._serialized_start=85
+  _globals['_LISTASERVICOS']._serialized_end=118
+  _globals['_HEARTBEAT']._serialized_start=121
+  _globals['_HEARTBEAT']._serialized_end=254
 # @@protoc_insertion_point(module_scope)

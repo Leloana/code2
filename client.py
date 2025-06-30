@@ -14,7 +14,6 @@ from concurrent import futures
 
 import random
 from datetime import datetime
-from fila_global import adicionar_na_fila
 
 INFO_ADDRESS = 'localhost:50051'
 
@@ -109,11 +108,16 @@ def cliente(classe: str, ind: int, i: int):
                                 stub_info = guiche_info_pb2_grpc.InformationStub(info)
                                 resposta_info = stub_info.GetTerminalOnLine(guiche_info_pb2.InfoRequest(name=classe))
                                 terminal_para_devolver = resposta_info.message
+                        
+                        except grpc.RpcError as e:
+                            print(f"[AVISO] {nome_cliente}: falha ao obter terminal para devolução - {e.details()}")
+                            return
 
-                            if not terminal_para_devolver:
-                                print(f"[AVISO] {nome_cliente}: nenhum terminal disponível para devolução.")
-                                return
+                        if not terminal_para_devolver:
+                            print(f"[AVISO] {nome_cliente}: nenhum terminal disponível para devolução.")
+                            return
 
+                        try:
                             with grpc.insecure_channel(terminal_para_devolver) as canal:
                                 stub_terminal = terminal_pb2_grpc.TerminalStub(canal)
                                 retorno = stub_terminal.ReturnACar(terminal_pb2.ReturnCarRequest(
@@ -121,11 +125,12 @@ def cliente(classe: str, ind: int, i: int):
                                     Nome_veiculo=veiculo_nome,
                                     Classe_veiculo=classe
                                 ))
-                            
-                            break
                         except grpc.RpcError as e:
-                            print(f"[AVISO] {nome_cliente}: erro ao devolver veículo - terminal indisponível")
-                            break
+                            print(f"[AVISO] {nome_cliente}: erro ao devolver veículo - {e.details()}")
+                            return
+
+                        break
+
                     else:
                         log_cliente(nome_cliente, f"Resposta recebida de {response.message}: PENDENTE {classe}")
             except grpc.RpcError as e:
@@ -135,12 +140,6 @@ def cliente(classe: str, ind: int, i: int):
                 else:
                     print(f"[AVISO] {nome_cliente}: terminal redirecionado está indisponível")
                     log_cliente(nome_cliente, f"terminal redirecionado está indisponível: PENDENTE {classe}")
-                    adicionar_na_fila(classe, {
-                        "id": nome_cliente,
-                        "ip": IP,
-                        "porta": Porta,
-                        "classe": classe
-                    })
 
     except grpc.RpcError as e:
         print(f"[ERRO] {nome_cliente}: Erro gRPC inesperado: {e.code()} - {e.details()}")

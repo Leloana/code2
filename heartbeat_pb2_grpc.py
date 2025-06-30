@@ -3,6 +3,7 @@
 import grpc
 import warnings
 
+from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 import heartbeat_pb2 as heartbeat__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
@@ -37,7 +38,12 @@ class HeartbeatStub(object):
         self.EnviarSinal = channel.unary_unary(
                 '/Heartbeat/EnviarSinal',
                 request_serializer=heartbeat__pb2.HeartbeatRequest.SerializeToString,
-                response_deserializer=heartbeat__pb2.Empty.FromString,
+                response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                _registered_method=True)
+        self.ListarServicosAtivos = channel.unary_unary(
+                '/Heartbeat/ListarServicosAtivos',
+                request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+                response_deserializer=heartbeat__pb2.ListaServicos.FromString,
                 _registered_method=True)
 
 
@@ -50,13 +56,24 @@ class HeartbeatServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ListarServicosAtivos(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_HeartbeatServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'EnviarSinal': grpc.unary_unary_rpc_method_handler(
                     servicer.EnviarSinal,
                     request_deserializer=heartbeat__pb2.HeartbeatRequest.FromString,
-                    response_serializer=heartbeat__pb2.Empty.SerializeToString,
+                    response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'ListarServicosAtivos': grpc.unary_unary_rpc_method_handler(
+                    servicer.ListarServicosAtivos,
+                    request_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+                    response_serializer=heartbeat__pb2.ListaServicos.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -85,7 +102,34 @@ class Heartbeat(object):
             target,
             '/Heartbeat/EnviarSinal',
             heartbeat__pb2.HeartbeatRequest.SerializeToString,
-            heartbeat__pb2.Empty.FromString,
+            google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ListarServicosAtivos(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Heartbeat/ListarServicosAtivos',
+            google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            heartbeat__pb2.ListaServicos.FromString,
             options,
             channel_credentials,
             insecure,

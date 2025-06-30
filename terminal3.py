@@ -1,25 +1,31 @@
-from terminal_common import build_terminal_servicer
+from terminal_common import (
+    build_terminal_servicer,
+    monitorar_falhas
+)
 from heartbeat_server import enviar_heartbeat
+
+import os
 import threading
 import grpc
 import terminal_pb2_grpc
 from concurrent import futures
 
-estoque = {
-    "Economicos": ["Chevrolet Onix", "Renault Kwid", "Peugeot 208"]
-}
-
-fila_espera = {
-    "Economicos": []
-}
-
 def main():
-    threading.Thread(target=enviar_heartbeat, args=("Terminal 3",), daemon=True).start()
+    nome_terminal = "Terminal 3"
+
+    os.makedirs("terminal_log", exist_ok=True)
+
+    estoque = { }
+
+
+    threading.Thread(target=monitorar_falhas, args=(nome_terminal, estoque), daemon=True).start()
+    threading.Thread(target=enviar_heartbeat, args=(nome_terminal,), daemon=True).start()
 
     grpc_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    servico = build_terminal_servicer("3", estoque, fila_espera)
+    servico = build_terminal_servicer(3, estoque)
     terminal_pb2_grpc.add_TerminalServicer_to_server(servico(), grpc_server)
     grpc_server.add_insecure_port("localhost:50153")
+
     print(">>> Terminal 3 iniciado")
     grpc_server.start()
     grpc_server.wait_for_termination()

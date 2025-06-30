@@ -24,19 +24,45 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11guiche_info.proto\"\x1b\n\x0bInfoRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1c\n\tInfoReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x07\n\x05\x45mpty2>\n\x0bInformation\x12/\n\x11GetTerminalOnLine\x12\x0c.InfoRequest\x1a\n.InfoReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x11guiche_info.proto\"\x1b\n\x0bInfoRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1c\n\tInfoReply\x12\x0f\n\x07message\x18\x01 \x01(\t\"F\n\rClienteNaFila\x12\n\n\x02id\x18\x01 \x01(\t\x12\n\n\x02ip\x18\x02 \x01(\t\x12\r\n\x05porta\x18\x03 \x01(\t\x12\x0e\n\x06\x63lasse\x18\x04 \x01(\t\"\x1d\n\x0b\x43onfirmacao\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"$\n\x11\x46ilasRequisitadas\x12\x0f\n\x07\x63lasses\x18\x01 \x03(\t\"H\n\x0f\x43lienteFilaInfo\x12\n\n\x02id\x18\x01 \x01(\t\x12\n\n\x02ip\x18\x02 \x01(\t\x12\r\n\x05porta\x18\x03 \x01(\t\x12\x0e\n\x06\x63lasse\x18\x04 \x01(\t\"3\n\rListaClientes\x12\"\n\x08\x63lientes\x18\x01 \x03(\x0b\x32\x10.ClienteFilaInfo\"u\n\x0cListaDeFilas\x12\'\n\x05\x66ilas\x18\x01 \x03(\x0b\x32\x18.ListaDeFilas.FilasEntry\x1a<\n\nFilasEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x1d\n\x05value\x18\x02 \x01(\x0b\x32\x0e.ListaClientes:\x02\x38\x01\"3\n\nClasseFila\x12\x0e\n\x06\x63lasse\x18\x01 \x01(\t\x12\x15\n\rnome_terminal\x18\x02 \x01(\t\";\n\x16RegistroClasseTerminal\x12\x10\n\x08terminal\x18\x01 \x01(\t\x12\x0f\n\x07\x63lasses\x18\x02 \x03(\t\"#\n\x11\x43lasseResponsavel\x12\x0e\n\x06\x63lasse\x18\x01 \x01(\t\"\'\n\x13TerminalResponsavel\x12\x10\n\x08terminal\x18\x01 \x01(\t\"\x1d\n\x0b\x43lasseLivre\x12\x0e\n\x06\x63lasse\x18\x01 \x01(\t2\xaf\x03\n\x0bInformation\x12-\n\x11GetTerminalOnLine\x12\x0c.InfoRequest\x1a\n.InfoReply\x12/\n\x0f\x41\x64icionarNaFila\x12\x0e.ClienteNaFila\x1a\x0c.Confirmacao\x12/\n\nObterFilas\x12\x12.FilasRequisitadas\x1a\r.ListaDeFilas\x12\x34\n\x13ObterProximoCliente\x12\x0b.ClasseFila\x1a\x10.ClienteFilaInfo\x12*\n\rAssumirClasse\x12\x0b.ClasseFila\x1a\x0c.Confirmacao\x12\x41\n\x18RegistrarClassesTerminal\x12\x17.RegistroClasseTerminal\x1a\x0c.Confirmacao\x12\x42\n\x16ObterResponsavelClasse\x12\x12.ClasseResponsavel\x1a\x14.TerminalResponsavel\x12&\n\x0eGetClasseLivre\x12\x06.Empty\x1a\x0c.ClasseLivreb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'guiche_info_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
+  _globals['_LISTADEFILAS_FILASENTRY']._loaded_options = None
+  _globals['_LISTADEFILAS_FILASENTRY']._serialized_options = b'8\001'
   _globals['_INFOREQUEST']._serialized_start=21
   _globals['_INFOREQUEST']._serialized_end=48
   _globals['_INFOREPLY']._serialized_start=50
   _globals['_INFOREPLY']._serialized_end=78
-  _globals['_EMPTY']._serialized_start=80
-  _globals['_EMPTY']._serialized_end=87
-  _globals['_INFORMATION']._serialized_start=89
-  _globals['_INFORMATION']._serialized_end=151
+  _globals['_CLIENTENAFILA']._serialized_start=80
+  _globals['_CLIENTENAFILA']._serialized_end=150
+  _globals['_CONFIRMACAO']._serialized_start=152
+  _globals['_CONFIRMACAO']._serialized_end=181
+  _globals['_EMPTY']._serialized_start=183
+  _globals['_EMPTY']._serialized_end=190
+  _globals['_FILASREQUISITADAS']._serialized_start=192
+  _globals['_FILASREQUISITADAS']._serialized_end=228
+  _globals['_CLIENTEFILAINFO']._serialized_start=230
+  _globals['_CLIENTEFILAINFO']._serialized_end=302
+  _globals['_LISTACLIENTES']._serialized_start=304
+  _globals['_LISTACLIENTES']._serialized_end=355
+  _globals['_LISTADEFILAS']._serialized_start=357
+  _globals['_LISTADEFILAS']._serialized_end=474
+  _globals['_LISTADEFILAS_FILASENTRY']._serialized_start=414
+  _globals['_LISTADEFILAS_FILASENTRY']._serialized_end=474
+  _globals['_CLASSEFILA']._serialized_start=476
+  _globals['_CLASSEFILA']._serialized_end=527
+  _globals['_REGISTROCLASSETERMINAL']._serialized_start=529
+  _globals['_REGISTROCLASSETERMINAL']._serialized_end=588
+  _globals['_CLASSERESPONSAVEL']._serialized_start=590
+  _globals['_CLASSERESPONSAVEL']._serialized_end=625
+  _globals['_TERMINALRESPONSAVEL']._serialized_start=627
+  _globals['_TERMINALRESPONSAVEL']._serialized_end=666
+  _globals['_CLASSELIVRE']._serialized_start=668
+  _globals['_CLASSELIVRE']._serialized_end=697
+  _globals['_INFORMATION']._serialized_start=700
+  _globals['_INFORMATION']._serialized_end=1131
 # @@protoc_insertion_point(module_scope)

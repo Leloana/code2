@@ -6,6 +6,7 @@ import backup_pb2
 import backup_pb2_grpc
 from heartbeat_server import enviar_heartbeat
 from limpar_logs import limpar_log_backup
+from google.protobuf import empty_pb2
 
 PORT = "localhost:50052"
 

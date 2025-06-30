@@ -1,18 +1,77 @@
 syntax = "proto3";
 
+// ========== MENSAGENS EXISTENTES ==========
 
 message InfoRequest {
   string name = 1;
 }
 
-// The response message containing the greetings
 message InfoReply {
-  string message = 1; // ip:porta
+  string message = 1;
 }
 
-// Serviço do guiche de informações
+message ClienteNaFila {
+  string id = 1;
+  string ip = 2;
+  string porta = 3;
+  string classe = 4;
+}
+
+message Confirmacao {
+  string status = 1;
+}
+
 message Empty {}
 
+message FilasRequisitadas {
+  repeated string classes = 1;
+}
+
+message ClienteFilaInfo {
+  string id = 1;
+  string ip = 2;
+  string porta = 3;
+  string classe = 4;
+}
+
+message ListaClientes {
+  repeated ClienteFilaInfo clientes = 1;
+}
+
+message ListaDeFilas {
+  map<string, ListaClientes> filas = 1;
+}
+
+message ClasseFila {
+  string classe = 1;
+  string nome_terminal = 2;
+}
+
+
+message RegistroClasseTerminal {
+  string terminal = 1;                 // Ex: "Terminal 1"
+  repeated string classes = 2;         // Ex: ["Executivos", "SUV"]
+}
+
+message ClasseResponsavel {
+  string classe = 1;
+}
+
+message TerminalResponsavel {
+  string terminal = 1;                 // Ex: "Terminal 2"
+}
+
+message ClasseLivre {
+  string classe = 1;
+}
+
 service Information {
-  rpc GetTerminalOnLine (InfoRequest) returns (InfoReply) {}
+  rpc GetTerminalOnLine (InfoRequest) returns (InfoReply);
+  rpc AdicionarNaFila (ClienteNaFila) returns (Confirmacao);
+  rpc ObterFilas (FilasRequisitadas) returns (ListaDeFilas);
+  rpc ObterProximoCliente (ClasseFila) returns (ClienteFilaInfo);
+  rpc AssumirClasse (ClasseFila) returns (Confirmacao);
+  rpc RegistrarClassesTerminal (RegistroClasseTerminal) returns (Confirmacao);
+  rpc ObterResponsavelClasse (ClasseResponsavel) returns (TerminalResponsavel);
+  rpc GetClasseLivre (Empty) returns (ClasseLivre);
 }

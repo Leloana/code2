@@ -1,11 +1,16 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 message HeartbeatRequest {
   string servico = 1; // ex: "Terminal 1", "Servidor de Backup"
 }
 
-message Empty {}
+message ListaServicos {
+  repeated string servicos = 1;
+}
 
 service Heartbeat {
-  rpc EnviarSinal (HeartbeatRequest) returns (Empty);
+  rpc EnviarSinal (HeartbeatRequest) returns (google.protobuf.Empty);
+  rpc ListarServicosAtivos (google.protobuf.Empty) returns (ListaServicos);
 }

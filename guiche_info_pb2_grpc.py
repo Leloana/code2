@@ -39,12 +39,89 @@ class InformationStub(object):
                 request_serializer=guiche__info__pb2.InfoRequest.SerializeToString,
                 response_deserializer=guiche__info__pb2.InfoReply.FromString,
                 _registered_method=True)
+        self.AdicionarNaFila = channel.unary_unary(
+                '/Information/AdicionarNaFila',
+                request_serializer=guiche__info__pb2.ClienteNaFila.SerializeToString,
+                response_deserializer=guiche__info__pb2.Confirmacao.FromString,
+                _registered_method=True)
+        self.ObterFilas = channel.unary_unary(
+                '/Information/ObterFilas',
+                request_serializer=guiche__info__pb2.FilasRequisitadas.SerializeToString,
+                response_deserializer=guiche__info__pb2.ListaDeFilas.FromString,
+                _registered_method=True)
+        self.ObterProximoCliente = channel.unary_unary(
+                '/Information/ObterProximoCliente',
+                request_serializer=guiche__info__pb2.ClasseFila.SerializeToString,
+                response_deserializer=guiche__info__pb2.ClienteFilaInfo.FromString,
+                _registered_method=True)
+        self.AssumirClasse = channel.unary_unary(
+                '/Information/AssumirClasse',
+                request_serializer=guiche__info__pb2.ClasseFila.SerializeToString,
+                response_deserializer=guiche__info__pb2.Confirmacao.FromString,
+                _registered_method=True)
+        self.RegistrarClassesTerminal = channel.unary_unary(
+                '/Information/RegistrarClassesTerminal',
+                request_serializer=guiche__info__pb2.RegistroClasseTerminal.SerializeToString,
+                response_deserializer=guiche__info__pb2.Confirmacao.FromString,
+                _registered_method=True)
+        self.ObterResponsavelClasse = channel.unary_unary(
+                '/Information/ObterResponsavelClasse',
+                request_serializer=guiche__info__pb2.ClasseResponsavel.SerializeToString,
+                response_deserializer=guiche__info__pb2.TerminalResponsavel.FromString,
+                _registered_method=True)
+        self.GetClasseLivre = channel.unary_unary(
+                '/Information/GetClasseLivre',
+                request_serializer=guiche__info__pb2.Empty.SerializeToString,
+                response_deserializer=guiche__info__pb2.ClasseLivre.FromString,
+                _registered_method=True)
 
 
 class InformationServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def GetTerminalOnLine(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AdicionarNaFila(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ObterFilas(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ObterProximoCliente(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def AssumirClasse(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RegistrarClassesTerminal(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ObterResponsavelClasse(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetClasseLivre(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -57,6 +134,41 @@ def add_InformationServicer_to_server(servicer, server):
                     servicer.GetTerminalOnLine,
                     request_deserializer=guiche__info__pb2.InfoRequest.FromString,
                     response_serializer=guiche__info__pb2.InfoReply.SerializeToString,
+            ),
+            'AdicionarNaFila': grpc.unary_unary_rpc_method_handler(
+                    servicer.AdicionarNaFila,
+                    request_deserializer=guiche__info__pb2.ClienteNaFila.FromString,
+                    response_serializer=guiche__info__pb2.Confirmacao.SerializeToString,
+            ),
+            'ObterFilas': grpc.unary_unary_rpc_method_handler(
+                    servicer.ObterFilas,
+                    request_deserializer=guiche__info__pb2.FilasRequisitadas.FromString,
+                    response_serializer=guiche__info__pb2.ListaDeFilas.SerializeToString,
+            ),
+            'ObterProximoCliente': grpc.unary_unary_rpc_method_handler(
+                    servicer.ObterProximoCliente,
+                    request_deserializer=guiche__info__pb2.ClasseFila.FromString,
+                    response_serializer=guiche__info__pb2.ClienteFilaInfo.SerializeToString,
+            ),
+            'AssumirClasse': grpc.unary_unary_rpc_method_handler(
+                    servicer.AssumirClasse,
+                    request_deserializer=guiche__info__pb2.ClasseFila.FromString,
+                    response_serializer=guiche__info__pb2.Confirmacao.SerializeToString,
+            ),
+            'RegistrarClassesTerminal': grpc.unary_unary_rpc_method_handler(
+                    servicer.RegistrarClassesTerminal,
+                    request_deserializer=guiche__info__pb2.RegistroClasseTerminal.FromString,
+                    response_serializer=guiche__info__pb2.Confirmacao.SerializeToString,
+            ),
+            'ObterResponsavelClasse': grpc.unary_unary_rpc_method_handler(
+                    servicer.ObterResponsavelClasse,
+                    request_deserializer=guiche__info__pb2.ClasseResponsavel.FromString,
+                    response_serializer=guiche__info__pb2.TerminalResponsavel.SerializeToString,
+            ),
+            'GetClasseLivre': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetClasseLivre,
+                    request_deserializer=guiche__info__pb2.Empty.FromString,
+                    response_serializer=guiche__info__pb2.ClasseLivre.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -86,6 +198,195 @@ class Information(object):
             '/Information/GetTerminalOnLine',
             guiche__info__pb2.InfoRequest.SerializeToString,
             guiche__info__pb2.InfoReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def AdicionarNaFila(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/AdicionarNaFila',
+            guiche__info__pb2.ClienteNaFila.SerializeToString,
+            guiche__info__pb2.Confirmacao.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ObterFilas(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/ObterFilas',
+            guiche__info__pb2.FilasRequisitadas.SerializeToString,
+            guiche__info__pb2.ListaDeFilas.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ObterProximoCliente(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/ObterProximoCliente',
+            guiche__info__pb2.ClasseFila.SerializeToString,
+            guiche__info__pb2.ClienteFilaInfo.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def AssumirClasse(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/AssumirClasse',
+            guiche__info__pb2.ClasseFila.SerializeToString,
+            guiche__info__pb2.Confirmacao.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RegistrarClassesTerminal(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/RegistrarClassesTerminal',
+            guiche__info__pb2.RegistroClasseTerminal.SerializeToString,
+            guiche__info__pb2.Confirmacao.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ObterResponsavelClasse(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/ObterResponsavelClasse',
+            guiche__info__pb2.ClasseResponsavel.SerializeToString,
+            guiche__info__pb2.TerminalResponsavel.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetClasseLivre(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/GetClasseLivre',
+            guiche__info__pb2.Empty.SerializeToString,
+            guiche__info__pb2.ClasseLivre.FromString,
             options,
             channel_credentials,
             insecure,

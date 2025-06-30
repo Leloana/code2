@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-
-
 message RentCarRequest {
   string ID_cliente = 1;
   string IP_cliente = 2;
