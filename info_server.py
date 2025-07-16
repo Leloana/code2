@@ -2,7 +2,8 @@ import grpc
 from concurrent import futures
 import threading
 from google.protobuf import empty_pb2
-
+import terminal_pb2_grpc
+import terminal_pb2
 import guiche_info_pb2
 import guiche_info_pb2_grpc
 import heartbeat_pb2_grpc
@@ -12,7 +13,9 @@ import heartbeat_pb2
 TERMINAL_PORTS = {
     'Terminal 1': 'localhost:50151',
     'Terminal 2': 'localhost:50152',
-    'Terminal 3': 'localhost:50153'
+    'Terminal 3': 'localhost:50153',
+    'Terminal 4': 'localhost:50154',
+    'Terminal 5': 'localhost:50155'
 }
 
 classes_disponiveis = ["Executivos", "Minivan", "Intermediarios", "SUV", "Economicos"]
@@ -21,6 +24,14 @@ classes_disponiveis = ["Executivos", "Minivan", "Intermediarios", "SUV", "Econom
 estado_global = {
     "ativos": set(),
     "classe_para_terminal": {},
+}
+
+from terminal_common import modelos
+
+# Estoque centralizado de backup
+estoque_backup = {
+    classe: modelos[classe][:]
+    for classe in classes_disponiveis
 }
 
 
@@ -40,6 +51,53 @@ def atualizar_terminais_ativos():
         print(f"[ERRO] Falha ao consultar heartbeat: {e}")
         return []
 
+def balancear_classes_para_terminal(terminal_religado):
+    if terminal_religado not in TERMINAL_PORTS:
+        return
+
+    # Só considera terminais válidos (com porta mapeada)
+    ativos_validos = [t for t in estado_global["ativos"] if t in TERMINAL_PORTS]
+
+    contagem = {
+        t: sum(1 for c in estado_global["classe_para_terminal"].values() if c == t)
+        for t in ativos_validos
+    }
+
+    mais_sobrecarregado = max(contagem, key=contagem.get, default=None)
+
+    if not mais_sobrecarregado or contagem[mais_sobrecarregado] <= 1:
+        print(f"[BALANCEAMENTO] Nenhuma classe transferida para {terminal_religado}")
+        return
+
+    for classe, responsavel in estado_global["classe_para_terminal"].items():
+        if responsavel == mais_sobrecarregado:
+            estado_global["classe_para_terminal"][classe] = terminal_religado
+            print(f"[BALANCEAMENTO] Classe '{classe}' movida de {mais_sobrecarregado} para {terminal_religado}")
+
+            try:
+                # Notificar terminal que cedeu a classe
+                with grpc.insecure_channel(TERMINAL_PORTS[mais_sobrecarregado]) as canal:
+                    stub = terminal_pb2_grpc.TerminalStub(canal)
+                    stub.RemoverClasse(terminal_pb2.ClasseTransferida(classe=classe))
+                    print(f"[INFO] {mais_sobrecarregado} removeu a classe '{classe}'")
+            except Exception as e:
+                print(f"[ERRO] Falha ao notificar {mais_sobrecarregado} para remover classe: {e}")
+
+            try:
+                # Notificar terminal que recebeu a classe
+                with grpc.insecure_channel(TERMINAL_PORTS[terminal_religado]) as canal:
+                    stub = terminal_pb2_grpc.TerminalStub(canal)
+                    stub.AssumirNovaClasse(terminal_pb2.ClasseTransferida(classe=classe))
+                    print(f"[INFO] {terminal_religado} assumiu e atualizou estoque para classe '{classe}'")
+            except Exception as e:
+                print(f"[ERRO] Falha ao notificar {terminal_religado} para assumir classe: {e}")
+
+            break
+    
+    print(estado_global)
+    
+lock_estado = threading.Lock()
+
 def terminal_inativo(nome_terminal):
     estado_global["ativos"].discard(nome_terminal)
     classes_afetadas = [
@@ -57,11 +115,12 @@ def monitorar_terminais():
         ativos_atuais = set(atualizar_terminais_ativos())
 
         for terminal in ativos_anteriores - ativos_atuais:
-            print(f"[ALERTA] {terminal} caiu!")
+            print(f"[ALERTA] {terminal} desligado")
             terminal_inativo(terminal)
 
         for terminal in ativos_atuais - ativos_anteriores:
-            print(f"[INFO] {terminal} voltou!")
+            print(f"[INFO] {terminal} ligado")
+            balancear_classes_para_terminal(terminal)
 
         estado_global["ativos"] = ativos_atuais
         ativos_anteriores = ativos_atuais.copy()  # <- atualizar para próxima iteração
@@ -109,10 +168,33 @@ class InfoServicer(guiche_info_pb2_grpc.InformationServicer):
 
     def AssumirClasse(self, request, context):
         classe = request.classe
-        print(f"[INFO] Classe {classe} foi assumida via chamada gRPC")
-        estado_global["classe_para_terminal"][classe] = request.nome_terminal
+        terminal = request.nome_terminal
+        print(f"[INFO] Classe {classe} foi assumida por {terminal} via chamada direta")
+        estado_global["classe_para_terminal"][classe] = terminal
         print(estado_global)
         return guiche_info_pb2.Confirmacao(status="OK")
+    
+    def RegistrarTransacao(self, request, context):
+        classe = request.classe
+        veiculo = request.veiculo
+        status = request.status
+
+        if status == "CONCLUIDO" and veiculo:
+            if classe in estoque_backup and veiculo in estoque_backup[classe]:
+                estoque_backup[classe].remove(veiculo)
+                print(f"[BACKUP] Veículo '{veiculo}' removido do estoque da classe '{classe}'")
+        return guiche_info_pb2.Confirmacao(status="OK")
+
+    def ObterEstoqueAtual(self, request, context):
+        classe = request.classe
+        if classe not in estoque_backup:
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+            context.set_details("Classe não encontrada")
+            return guiche_info_pb2.EstoqueClasse()
+        
+        return guiche_info_pb2.EstoqueClasse(modelos=estoque_backup[classe])
+
+
     
     def ObterResponsavelClasse(self, request, context):
         terminal = estado_global["classe_para_terminal"].get(request.classe, "")
@@ -127,7 +209,7 @@ class InfoServicer(guiche_info_pb2_grpc.InformationServicer):
         context.set_code(grpc.StatusCode.NOT_FOUND)
         context.set_details("Nenhuma classe livre no momento.")
         return guiche_info_pb2.ClasseLivre()
-
+    
 # ==================== START ====================
 
 def serve():

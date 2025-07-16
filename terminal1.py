@@ -3,6 +3,7 @@ import threading
 import grpc
 from concurrent import futures
 
+
 from terminal_common import (
     build_terminal_servicer,
     monitorar_falhas
@@ -22,7 +23,7 @@ def main():
 
     grpc_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     servico = build_terminal_servicer(1, estoque)
-    terminal_pb2_grpc.add_TerminalServicer_to_server(servico(), grpc_server)
+    terminal_pb2_grpc.add_TerminalServicer_to_server(servico, grpc_server)
     grpc_server.add_insecure_port("localhost:50151")
 
     print(">>> Terminal 1 iniciado")

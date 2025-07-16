@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eterminal.proto\"g\n\x0eRentCarRequest\x12\x12\n\nID_cliente\x18\x01 \x01(\t\x12\x12\n\nIP_cliente\x18\x02 \x01(\t\x12\x15\n\rPorta_cliente\x18\x03 \x01(\t\x12\x16\n\x0e\x43lasse_veiculo\x18\x04 \x01(\t\"2\n\x0fRentCarResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\"T\n\x10ReturnCarRequest\x12\x12\n\nID_cliente\x18\x01 \x01(\t\x12\x14\n\x0cNome_veiculo\x18\x02 \x01(\t\x12\x16\n\x0e\x43lasse_veiculo\x18\x03 \x01(\t\"$\n\x11ReturnCarResponse\x12\x0f\n\x07message\x18\x01 \x01(\x08\"*\n\x0f\x43\x61llbackMessage\x12\x17\n\x0fmessage_content\x18\x01 \x01(\t\"\"\n\x10\x43\x61llbackResponse\x12\x0e\n\x06status\x18\x01 \x01(\t2r\n\x08Terminal\x12/\n\x08RentACar\x12\x0f.RentCarRequest\x1a\x10.RentCarResponse\"\x00\x12\x35\n\nReturnACar\x12\x11.ReturnCarRequest\x1a\x12.ReturnCarResponse\"\x00\x32I\n\x0f\x43\x61llbackService\x12\x36\n\x0fReceiveCallback\x12\x10.CallbackMessage\x1a\x11.CallbackResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eterminal.proto\"g\n\x0eRentCarRequest\x12\x12\n\nID_cliente\x18\x01 \x01(\t\x12\x12\n\nIP_cliente\x18\x02 \x01(\t\x12\x15\n\rPorta_cliente\x18\x03 \x01(\t\x12\x16\n\x0e\x43lasse_veiculo\x18\x04 \x01(\t\"2\n\x0fRentCarResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t\"T\n\x10ReturnCarRequest\x12\x12\n\nID_cliente\x18\x01 \x01(\t\x12\x14\n\x0cNome_veiculo\x18\x02 \x01(\t\x12\x16\n\x0e\x43lasse_veiculo\x18\x03 \x01(\t\"$\n\x11ReturnCarResponse\x12\x0f\n\x07message\x18\x01 \x01(\x08\"*\n\x0f\x43\x61llbackMessage\x12\x17\n\x0fmessage_content\x18\x01 \x01(\t\"\"\n\x10\x43\x61llbackResponse\x12\x0e\n\x06status\x18\x01 \x01(\t\"#\n\x11\x43lasseTransferida\x12\x0e\n\x06\x63lasse\x18\x01 \x01(\t\"\x1d\n\x0b\x43onfirmando\x12\x0e\n\x06status\x18\x01 \x01(\t2I\n\x0f\x43\x61llbackService\x12\x36\n\x0fReceiveCallback\x12\x10.CallbackMessage\x1a\x11.CallbackResponse2\x9f\x02\n\x08Terminal\x12/\n\x08RentACar\x12\x0f.RentCarRequest\x1a\x10.RentCarResponse\"\x00\x12\x35\n\nReturnACar\x12\x11.ReturnCarRequest\x1a\x12.ReturnCarResponse\"\x00\x12\x37\n\x11\x41ssumirNovaClasse\x12\x12.ClasseTransferida\x1a\x0c.Confirmando\"\x00\x12\x33\n\rRemoverClasse\x12\x12.ClasseTransferida\x1a\x0c.Confirmando\"\x00\x12=\n\x17ReceberClasseViaEleicao\x12\x12.ClasseTransferida\x1a\x0c.Confirmando\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -43,8 +43,12 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_CALLBACKMESSAGE']._serialized_end=341
   _globals['_CALLBACKRESPONSE']._serialized_start=343
   _globals['_CALLBACKRESPONSE']._serialized_end=377
-  _globals['_TERMINAL']._serialized_start=379
-  _globals['_TERMINAL']._serialized_end=493
-  _globals['_CALLBACKSERVICE']._serialized_start=495
-  _globals['_CALLBACKSERVICE']._serialized_end=568
+  _globals['_CLASSETRANSFERIDA']._serialized_start=379
+  _globals['_CLASSETRANSFERIDA']._serialized_end=414
+  _globals['_CONFIRMANDO']._serialized_start=416
+  _globals['_CONFIRMANDO']._serialized_end=445
+  _globals['_CALLBACKSERVICE']._serialized_start=447
+  _globals['_CALLBACKSERVICE']._serialized_end=520
+  _globals['_TERMINAL']._serialized_start=523
+  _globals['_TERMINAL']._serialized_end=810
 # @@protoc_insertion_point(module_scope)

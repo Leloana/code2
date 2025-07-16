@@ -22,14 +22,6 @@ message ReturnCarResponse {
   bool message = 1;  // devolução efetivada ou falha na devolução
 }
 
-
-// Serviço do Terminal de locação
-service Terminal {
-  rpc RentACar (RentCarRequest) returns (RentCarResponse) {}
-  rpc ReturnACar (ReturnCarRequest) returns (ReturnCarResponse){}
-}
-
-
 // Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
 service CallbackService {
   // Método que o terminal chama de volta no cliente
@@ -43,4 +35,22 @@ message CallbackMessage {
 
 message CallbackResponse {
   string status = 1;
+}
+
+message ClasseTransferida {
+  string classe = 1;
+}
+
+message Confirmando {
+  string status = 1;
+}
+
+// Serviço do Terminal de locação
+service Terminal {
+  rpc RentACar (RentCarRequest) returns (RentCarResponse) {}
+  rpc ReturnACar (ReturnCarRequest) returns (ReturnCarResponse){}
+  rpc AssumirNovaClasse (ClasseTransferida) returns (Confirmando){}
+  rpc RemoverClasse (ClasseTransferida) returns (Confirmando){}
+  rpc ReceberClasseViaEleicao(ClasseTransferida) returns (Confirmando){}
+
 }

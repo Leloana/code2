@@ -25,6 +25,82 @@ if _version_not_supported:
     )
 
 
+class CallbackServiceStub(object):
+    """Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
+    """
+
+    def __init__(self, channel):
+        """Constructor.
+
+        Args:
+            channel: A grpc.Channel.
+        """
+        self.ReceiveCallback = channel.unary_unary(
+                '/CallbackService/ReceiveCallback',
+                request_serializer=terminal__pb2.CallbackMessage.SerializeToString,
+                response_deserializer=terminal__pb2.CallbackResponse.FromString,
+                _registered_method=True)
+
+
+class CallbackServiceServicer(object):
+    """Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
+    """
+
+    def ReceiveCallback(self, request, context):
+        """Método que o terminal chama de volta no cliente
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+
+def add_CallbackServiceServicer_to_server(servicer, server):
+    rpc_method_handlers = {
+            'ReceiveCallback': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReceiveCallback,
+                    request_deserializer=terminal__pb2.CallbackMessage.FromString,
+                    response_serializer=terminal__pb2.CallbackResponse.SerializeToString,
+            ),
+    }
+    generic_handler = grpc.method_handlers_generic_handler(
+            'CallbackService', rpc_method_handlers)
+    server.add_generic_rpc_handlers((generic_handler,))
+    server.add_registered_method_handlers('CallbackService', rpc_method_handlers)
+
+
+ # This class is part of an EXPERIMENTAL API.
+class CallbackService(object):
+    """Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
+    """
+
+    @staticmethod
+    def ReceiveCallback(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/CallbackService/ReceiveCallback',
+            terminal__pb2.CallbackMessage.SerializeToString,
+            terminal__pb2.CallbackResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+
 class TerminalStub(object):
     """Serviço do Terminal de locação
     """
@@ -45,6 +121,21 @@ class TerminalStub(object):
                 request_serializer=terminal__pb2.ReturnCarRequest.SerializeToString,
                 response_deserializer=terminal__pb2.ReturnCarResponse.FromString,
                 _registered_method=True)
+        self.AssumirNovaClasse = channel.unary_unary(
+                '/Terminal/AssumirNovaClasse',
+                request_serializer=terminal__pb2.ClasseTransferida.SerializeToString,
+                response_deserializer=terminal__pb2.Confirmando.FromString,
+                _registered_method=True)
+        self.RemoverClasse = channel.unary_unary(
+                '/Terminal/RemoverClasse',
+                request_serializer=terminal__pb2.ClasseTransferida.SerializeToString,
+                response_deserializer=terminal__pb2.Confirmando.FromString,
+                _registered_method=True)
+        self.ReceberClasseViaEleicao = channel.unary_unary(
+                '/Terminal/ReceberClasseViaEleicao',
+                request_serializer=terminal__pb2.ClasseTransferida.SerializeToString,
+                response_deserializer=terminal__pb2.Confirmando.FromString,
+                _registered_method=True)
 
 
 class TerminalServicer(object):
@@ -63,6 +154,24 @@ class TerminalServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def AssumirNovaClasse(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RemoverClasse(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ReceberClasseViaEleicao(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TerminalServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -75,6 +184,21 @@ def add_TerminalServicer_to_server(servicer, server):
                     servicer.ReturnACar,
                     request_deserializer=terminal__pb2.ReturnCarRequest.FromString,
                     response_serializer=terminal__pb2.ReturnCarResponse.SerializeToString,
+            ),
+            'AssumirNovaClasse': grpc.unary_unary_rpc_method_handler(
+                    servicer.AssumirNovaClasse,
+                    request_deserializer=terminal__pb2.ClasseTransferida.FromString,
+                    response_serializer=terminal__pb2.Confirmando.SerializeToString,
+            ),
+            'RemoverClasse': grpc.unary_unary_rpc_method_handler(
+                    servicer.RemoverClasse,
+                    request_deserializer=terminal__pb2.ClasseTransferida.FromString,
+                    response_serializer=terminal__pb2.Confirmando.SerializeToString,
+            ),
+            'ReceberClasseViaEleicao': grpc.unary_unary_rpc_method_handler(
+                    servicer.ReceberClasseViaEleicao,
+                    request_deserializer=terminal__pb2.ClasseTransferida.FromString,
+                    response_serializer=terminal__pb2.Confirmando.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -142,57 +266,8 @@ class Terminal(object):
             metadata,
             _registered_method=True)
 
-
-class CallbackServiceStub(object):
-    """Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
-    """
-
-    def __init__(self, channel):
-        """Constructor.
-
-        Args:
-            channel: A grpc.Channel.
-        """
-        self.ReceiveCallback = channel.unary_unary(
-                '/CallbackService/ReceiveCallback',
-                request_serializer=terminal__pb2.CallbackMessage.SerializeToString,
-                response_deserializer=terminal__pb2.CallbackResponse.FromString,
-                _registered_method=True)
-
-
-class CallbackServiceServicer(object):
-    """Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
-    """
-
-    def ReceiveCallback(self, request, context):
-        """Método que o terminal chama de volta no cliente
-        """
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
-
-def add_CallbackServiceServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-            'ReceiveCallback': grpc.unary_unary_rpc_method_handler(
-                    servicer.ReceiveCallback,
-                    request_deserializer=terminal__pb2.CallbackMessage.FromString,
-                    response_serializer=terminal__pb2.CallbackResponse.SerializeToString,
-            ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-            'CallbackService', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('CallbackService', rpc_method_handlers)
-
-
- # This class is part of an EXPERIMENTAL API.
-class CallbackService(object):
-    """Implementado pelo cliente (atuando como servidor), chamado pelo servidor principal
-    """
-
     @staticmethod
-    def ReceiveCallback(request,
+    def AssumirNovaClasse(request,
             target,
             options=(),
             channel_credentials=None,
@@ -205,9 +280,63 @@ class CallbackService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/CallbackService/ReceiveCallback',
-            terminal__pb2.CallbackMessage.SerializeToString,
-            terminal__pb2.CallbackResponse.FromString,
+            '/Terminal/AssumirNovaClasse',
+            terminal__pb2.ClasseTransferida.SerializeToString,
+            terminal__pb2.Confirmando.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RemoverClasse(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Terminal/RemoverClasse',
+            terminal__pb2.ClasseTransferida.SerializeToString,
+            terminal__pb2.Confirmando.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ReceberClasseViaEleicao(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Terminal/ReceberClasseViaEleicao',
+            terminal__pb2.ClasseTransferida.SerializeToString,
+            terminal__pb2.Confirmando.FromString,
             options,
             channel_credentials,
             insecure,

@@ -18,6 +18,8 @@ servicos_esperados = [
     "Terminal 1",
     "Terminal 2",
     "Terminal 3",
+    "Terminal 4",
+    "Terminal 5",
     "Backup"
 ]
 

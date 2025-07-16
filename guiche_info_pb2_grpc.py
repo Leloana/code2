@@ -74,6 +74,21 @@ class InformationStub(object):
                 request_serializer=guiche__info__pb2.Empty.SerializeToString,
                 response_deserializer=guiche__info__pb2.ClasseLivre.FromString,
                 _registered_method=True)
+        self.EleicaoClasse = channel.unary_unary(
+                '/Information/EleicaoClasse',
+                request_serializer=guiche__info__pb2.ClasseFila.SerializeToString,
+                response_deserializer=guiche__info__pb2.Confirmacao.FromString,
+                _registered_method=True)
+        self.RegistrarTransacao = channel.unary_unary(
+                '/Information/RegistrarTransacao',
+                request_serializer=guiche__info__pb2.RegistroEstoqueRequest.SerializeToString,
+                response_deserializer=guiche__info__pb2.Confirmacao.FromString,
+                _registered_method=True)
+        self.ObterEstoqueAtual = channel.unary_unary(
+                '/Information/ObterEstoqueAtual',
+                request_serializer=guiche__info__pb2.ClasseFila.SerializeToString,
+                response_deserializer=guiche__info__pb2.EstoqueClasse.FromString,
+                _registered_method=True)
 
 
 class InformationServicer(object):
@@ -127,6 +142,24 @@ class InformationServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def EleicaoClasse(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def RegistrarTransacao(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ObterEstoqueAtual(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_InformationServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -169,6 +202,21 @@ def add_InformationServicer_to_server(servicer, server):
                     servicer.GetClasseLivre,
                     request_deserializer=guiche__info__pb2.Empty.FromString,
                     response_serializer=guiche__info__pb2.ClasseLivre.SerializeToString,
+            ),
+            'EleicaoClasse': grpc.unary_unary_rpc_method_handler(
+                    servicer.EleicaoClasse,
+                    request_deserializer=guiche__info__pb2.ClasseFila.FromString,
+                    response_serializer=guiche__info__pb2.Confirmacao.SerializeToString,
+            ),
+            'RegistrarTransacao': grpc.unary_unary_rpc_method_handler(
+                    servicer.RegistrarTransacao,
+                    request_deserializer=guiche__info__pb2.RegistroEstoqueRequest.FromString,
+                    response_serializer=guiche__info__pb2.Confirmacao.SerializeToString,
+            ),
+            'ObterEstoqueAtual': grpc.unary_unary_rpc_method_handler(
+                    servicer.ObterEstoqueAtual,
+                    request_deserializer=guiche__info__pb2.ClasseFila.FromString,
+                    response_serializer=guiche__info__pb2.EstoqueClasse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -387,6 +435,87 @@ class Information(object):
             '/Information/GetClasseLivre',
             guiche__info__pb2.Empty.SerializeToString,
             guiche__info__pb2.ClasseLivre.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def EleicaoClasse(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/EleicaoClasse',
+            guiche__info__pb2.ClasseFila.SerializeToString,
+            guiche__info__pb2.Confirmacao.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def RegistrarTransacao(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/RegistrarTransacao',
+            guiche__info__pb2.RegistroEstoqueRequest.SerializeToString,
+            guiche__info__pb2.Confirmacao.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def ObterEstoqueAtual(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/Information/ObterEstoqueAtual',
+            guiche__info__pb2.ClasseFila.SerializeToString,
+            guiche__info__pb2.EstoqueClasse.FromString,
             options,
             channel_credentials,
             insecure,

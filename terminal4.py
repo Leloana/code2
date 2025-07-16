@@ -11,7 +11,7 @@ from heartbeat_server import enviar_heartbeat
 import terminal_pb2_grpc
 
 def main():
-    nome_terminal = "Terminal 2"
+    nome_terminal = "Terminal 4"
 
     os.makedirs("terminal_log", exist_ok=True)
 
@@ -21,11 +21,11 @@ def main():
     threading.Thread(target=enviar_heartbeat, args=(nome_terminal,), daemon=True).start()
 
     grpc_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    servico = build_terminal_servicer(2, estoque)
+    servico = build_terminal_servicer(4, estoque)
     terminal_pb2_grpc.add_TerminalServicer_to_server(servico, grpc_server)
-    grpc_server.add_insecure_port("localhost:50152")
+    grpc_server.add_insecure_port("localhost:50154")
 
-    print(">>> Terminal 2 iniciado")
+    print(">>> Terminal 4 iniciado")
     grpc_server.start()
     grpc_server.wait_for_termination()
 

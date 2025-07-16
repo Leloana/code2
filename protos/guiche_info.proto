@@ -65,6 +65,17 @@ message ClasseLivre {
   string classe = 1;
 }
 
+message RegistroEstoqueRequest  {
+  string cliente = 1;
+  string classe = 2;
+  string veiculo = 3;
+  string status = 4;
+}
+
+message EstoqueClasse {
+  repeated string modelos = 1;
+}
+
 service Information {
   rpc GetTerminalOnLine (InfoRequest) returns (InfoReply);
   rpc AdicionarNaFila (ClienteNaFila) returns (Confirmacao);
@@ -74,4 +85,7 @@ service Information {
   rpc RegistrarClassesTerminal (RegistroClasseTerminal) returns (Confirmacao);
   rpc ObterResponsavelClasse (ClasseResponsavel) returns (TerminalResponsavel);
   rpc GetClasseLivre (Empty) returns (ClasseLivre);
+  rpc EleicaoClasse (ClasseFila) returns (Confirmacao);
+  rpc RegistrarTransacao (RegistroEstoqueRequest ) returns (Confirmacao);
+  rpc ObterEstoqueAtual (ClasseFila) returns (EstoqueClasse);
 }
